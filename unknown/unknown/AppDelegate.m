@@ -11,6 +11,8 @@
 #import "AppDelegate+LocationManager.h"
 #import "AppDelegate+IBeacon.h"
 
+
+
 @interface AppDelegate ()
 
 @end
@@ -28,8 +30,58 @@
     //判断定位权限
     [self locationManagerAuthority];
     
+    
+    //开始周边服务
+    [[Peripheral share:self] makePeripheralManager];
+    
+    
     //开始扫描基站--(最多检查20个UUID)
     //[self scansearchBeaconwithApp:[NSString stringWithFormat:@"FDA50693-A4E2-4FB1-AFCF-C6EB076478%d",25] withIdentifier:[NSString stringWithFormat:@"%d",25]];
+    
+    
+//    NSString *str=[NSString stringWithFormat:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
+//    NSURL *url = [NSURL URLWithString:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
+//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSString *html = operation.responseString;
+//        NSLog(@"周边返回的数据 %@",html);
+//        
+//        //NSData* postData=[html dataUsingEncoding:NSUTF8StringEncoding];
+//        
+//        NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+//        [postDic setObject:@"101" forKey:@"code"];
+//        [postDic setObject:[Tool interface:@"101"] forKey:@"msg"];
+//        [postDic setObject:html forKey:@"data"];
+//        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:postDic options:0 error:nil];
+//    
+//        NSData *data =  [Tool compressData:jsonData];
+//        
+//        
+//        
+//        
+//        [[PerequestQueue shared] initData:data withCharacteristic:nil withCentral:nil];
+//         
+//        
+//        [[PerequestQueue shared] next:nil];
+//        
+//        
+//        
+//       NSData *newdata =  [Tool uncompressZippedData:data];
+//        
+//        
+//        NSString *newString = [[NSString alloc] initWithData:newdata encoding:NSUTF8StringEncoding];
+//        
+//        
+//        NSLog(@"%@",newString);
+//     
+//        
+//    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"发生错误！%@",error);
+//    }];
+//    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//    [queue addOperation:operation];
+//    
     
     
     return YES;
@@ -55,8 +107,7 @@
     //更新用户信息
     [Tool uadataUserInfo];
     //开始成为周边管理器
-    //开始周边服务
-    [[Peripheral share:self] makePeripheralManager];
+    
     
 }
 

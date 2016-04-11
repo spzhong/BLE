@@ -2,17 +2,14 @@
 //  User.h
 //  unknown
 //
-//  Created by spzhong on 16/4/1.
-//  Copyright © 2016年 spzhong. All rights reserved.
+//  Created by apple on 16/4/6.
+//  Copyright © 2016年 dachen. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "CoreData.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
-
 
 @interface User : NSManagedObject
 
@@ -23,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param dataString
  */
--(void)initData_dic:(NSMutableDictionary *)dic;
+-(void)initData_dic:(NSDictionary *)dic;
 
 /**
  *  初始化数据
@@ -31,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param dataString
  */
 -(void)initData_string:(NSString *)dicString;
-    
+
 /**
  *  转换成jsonstring
  *

@@ -258,20 +258,16 @@
  *
  *  @param msg
  */
--(void)callBackMsg:(NSData *)msg{
+-(void)callBackMsg:(NSString *)msg{
     
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+   
     
-    Byte *headByte = (Byte *)[msg bytes];
-    
-    NSData *newData = [msg subdataWithRange:NSMakeRange(0, msg.length)];
-    NSString *aString = [[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding];
-    [dic setObject:aString forKey:@"data"];
+    [dic setObject:msg forKey:@"data"];
     [dic setObject:@"1" forKey:@"type"];
     [dic setObject:@"0" forKey:@"dir"]; //对方
-     
-    
+    NSLog(@"dic---:%@",dic);
     //添加到数据数组中
     [dataLogArray addObject:dic];
     NSIndexPath *index = [NSIndexPath indexPathForRow:dataLogArray.count-1 inSection:0];

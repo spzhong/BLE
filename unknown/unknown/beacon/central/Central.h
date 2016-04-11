@@ -11,12 +11,17 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Global.h"
+#import "CenrequestQueue.h"
+#import "PeripheralData.h"
+
+
+
 
 @protocol CentralDelagete <NSObject>
 
 @required
 -(void)sendMsgResult:(BOOL)isok;
--(void)callBackMsg:(NSData *)msg;
+-(void)callBackMsg:(NSString *)msg;
 @optional
 
 @end
@@ -25,11 +30,15 @@
 @interface Central : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate>
 {
     NSMutableData *allData;
+    PeripheralData *peripheralData;//周边设备储存信息
 }
 @property(nonatomic,strong) CBCharacteristic *characteristic;//特征
 @property(nonatomic,strong) CBCentralManager *centralManger;
 @property(nonatomic,strong) NSMutableData *data;
-@property(nonatomic,strong) CBPeripheral *peripheral;//一个周边对象
+
+@property(nonatomic,strong) NSMutableArray *peripheralArray;//一个周边对象数组
+
+@property(nonatomic,strong) CBPeripheral *pperipheral;//一个周边对象数
 @property(nonatomic,strong) CBCentral *central;//中心对象
 
 

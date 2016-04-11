@@ -80,7 +80,15 @@
 
 
 
- 
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "CoreData.h"
+#import "Tool.h"
+#import "User.h"
+#import "NSString+json.h"
+#import "AFNetworking.h"
+
+
 
 
 

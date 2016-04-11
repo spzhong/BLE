@@ -15,6 +15,7 @@
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="device" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isallow_xg" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="netType" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,8 +25,8 @@
         <attribute name="wifi" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="150"/>
         <element name="History" positionX="-54" positionY="27" width="128" height="120"/>
         <element name="Scan" positionX="-27" positionY="72" width="128" height="120"/>
+        <element name="User" positionX="-36" positionY="90" width="128" height="165"/>
     </elements>
 </model>

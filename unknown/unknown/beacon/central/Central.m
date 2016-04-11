@@ -26,11 +26,13 @@ static id<CentralDelagete> cdelagete;
 
 -(void)makeCentralManager{
     
+    self.peripheralArray = [[NSMutableArray alloc] init];
+    
     //关闭
     [[Peripheral share:nil] closePeripheralManager];
     
+    //进行扫描
     self.centralManger = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
-    
     
 }
 
@@ -42,14 +44,27 @@ static id<CentralDelagete> cdelagete;
  *  @param data
  */
 - (void)sendToSubscribers:(NSData *)data {
+    
+    //[self.peripheral writeValue:data forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    
+    //点击按钮开始访问
+    NSString *ss = @"https://alpha-api.app.net/stream/0/posts/stream/global";
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setObject:@"101" forKey:@"code"];
+    [postDic setObject:[Tool interface:@"101"] forKey:@"msg"];
+    User *user = [Tool getUser];
+    [postDic setObject:user.userId forKey:@"userId"];
+    [postDic setObject:ss forKey:@"data"];
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:postDic options:0 error:nil];
+    
+    
+    Request *startRequest = [[CenrequestQueue shared] cenInitData:jsonData withCharacteristic:self.characteristic];
+    //启动所有的
+    [[CenrequestQueue shared] startAll_once:peripheralData.peripheral withStart:startRequest];
      
-    
-    [self.peripheral writeValue:data forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
-    
 }
 
 
-//
 
 
 
@@ -90,16 +105,30 @@ static id<CentralDelagete> cdelagete;
     
     int rssi = abs([RSSI intValue]);
     CGFloat ci = (rssi - 49) / (10 * 4.);
-    NSString *length = [NSString stringWithFormat:@"发现BLT4.0热点:%@,距离:%.1fm",_peripheral,pow(10,ci)];
+    NSString *length = [NSString stringWithFormat:@"发现BLT4.0热点:%@,距离:%.1fm",peripheral,pow(10,ci)];
     NSLog(@"周边的名称%@ , 距离 %@",peripheral.name,length);
+//
+//
+//    [self.centralManger stopScan];
+//    if (self.peripheral != peripheral) {
+//        self.peripheral = peripheral;
+//        // Connects to the discovered peripheral--开始连接一个周边的对象
+//        [self.centralManger connectPeripheral:peripheral options:nil];
+//    }
+//
     
-
     [self.centralManger stopScan];
-    if (self.peripheral != peripheral) {
-        self.peripheral = peripheral;
-        // Connects to the discovered peripheral--开始连接一个周边的对象
-        [self.centralManger connectPeripheral:peripheral options:nil];
+    
+    
+    //判断停止扫描设备
+    if (self.peripheralArray.count>10) {
+        [self.centralManger stopScan];
+        return;
     }
+    self.pperipheral = peripheral;
+    //开始连接
+    [self.centralManger connectPeripheral:peripheral options:nil];
+    
 }
 /**
  *  基于一个连接的代理回调
@@ -108,11 +137,16 @@ static id<CentralDelagete> cdelagete;
  *  @param peripheral 周边对象
  */
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    [self.data setLength:0];
-    //设置周边的一个委托
     
-    [self.peripheral setDelegate:self];
-    [self.peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
+    //加入中心设备--是包含中心设备
+    peripheralData = [[PeripheralData alloc] init];
+    peripheralData.peripheral = peripheral;
+    //添加到管理周边设备中
+    [self.peripheralArray addObject:peripheralData];
+    
+    //设置周边的一个委托
+    [peripheral setDelegate:self];
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
 }
 /**
  *  基于一个连接的代理回调失败
@@ -122,7 +156,7 @@ static id<CentralDelagete> cdelagete;
  *  @param error      错误信息
  */
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error{
-
+    
 }
 /**
  *  搜到周边的服务的回调信息
@@ -132,13 +166,15 @@ static id<CentralDelagete> cdelagete;
  */
 - (void)peripheral:(CBPeripheral *)aPeripheral didDiscoverServices:(NSError *)error {
     if (error) {
+        [self.peripheralArray removeObject:aPeripheral];
         NSLog(@"发现错误的服务信息 %@",error);
         return;
     }
     for (CBService *service in aPeripheral.services) {
         //发现服务
         if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]]) {
-            [self.peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:kCharacteristicUUID]]  forService:service];
+            [aPeripheral discoverCharacteristics:@[[CBUUID UUIDWithString:kCharacteristicUUID]]  forService:service];
+            
         }
     }
     
@@ -146,16 +182,12 @@ static id<CentralDelagete> cdelagete;
 
 -(void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    //NSLog(@"%s,%@",__PRETTY_FUNCTION__,peripheral);
-//    int rssi = abs([peripheral.RSSI intValue]);
-//    CGFloat ci = (rssi - 49) / (10 * 4.);
-//    NSString *length = [NSString stringWithFormat:@"发现BLT4.0热点:%@,距离:%.1fm",_peripheral,pow(10,ci)];
-//    NSLog(@"距离 %@",length);
+   
 }
 
 //计算的value
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(nullable NSError *)error{
-
+    
 }
 
 
@@ -167,6 +199,7 @@ static id<CentralDelagete> cdelagete;
  */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     if (error) {
+        [self.peripheralArray removeObject:peripheral];
         NSLog(@"发现错误的特征信息 %@",error);
         return;
     }
@@ -174,7 +207,7 @@ static id<CentralDelagete> cdelagete;
         for (CBCharacteristic *characteristic in service.characteristics) {
             if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kCharacteristicUUID]]) {
                 //开始通知一个特征更新
-                [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             }
         }
     }
@@ -188,54 +221,116 @@ static id<CentralDelagete> cdelagete;
  */
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     if (error) {
+        [self.peripheralArray removeObject:peripheral];
         NSLog(@"错误的场景通知状态:%@",error);
     }
     if (![characteristic.UUID isEqual:[CBUUID UUIDWithString:kCharacteristicUUID]]) {
         return;
     }
-    
-    self.characteristic = characteristic;
     //通知启动
     if (characteristic.isNotifying) {
         [peripheral readValueForCharacteristic:characteristic];
     }else{
+         [self.peripheralArray removeObject:peripheral];
         //通知已经stopped
         [self.centralManger cancelPeripheralConnection:peripheral];
     }
 }
 
 
-
-
+/**
+ *  更新特征后的数据回调
+ *
+ *  @param peripheral
+ *  @param characteristic
+ *  @param error
+ */
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    
+    self.characteristic = characteristic;
+    self.pperipheral = peripheral;
+    //首先判读数据不为空
     if (characteristic.value != nil) {
+        //周边设备的特征
+        peripheralData.characteristic = characteristic;
         
         Byte *headByte = (Byte *)[characteristic.value bytes];
         switch (headByte[0]) {
-            case 0xe0:
-                allData = [[NSMutableData alloc] initWithCapacity:0];
+            case 0xe0://开始
+                peripheralData.allData = [[NSMutableData alloc] initWithCapacity:0];
                 break;
-            case 0xe1:
-                [cdelagete callBackMsg:allData];
+            case 0xe1://结束
+                [self centralEndReadValue];
                 break;
-            default:
-                [allData appendData:characteristic.value];
+            default://中间数据
+                [peripheralData.allData appendData:characteristic.value];
                 break;
         }
-        
-        [self.peripheral writeValue:[@"slf" dataUsingEncoding:NSUTF8StringEncoding]forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+        //告知周边已收到数据
+        Byte ACkValue[1] = {0};
+        ACkValue[0] = 0xe2;//返回通知数据
+        NSMutableData *data = [NSMutableData dataWithBytes:ACkValue length:1];
+        [peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
     }
     
 }
  
-
+/**
+ *  写入周边管理后的回调
+ *
+ *  @param peripheral
+ *  @param characteristic
+ *  @param error
+ */
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     
 }
 
+
+
+/**
+ *  结束执行的类型
+ *
+ *  @param peripheral 当前的周边管理
+ */
+-(void)centralEndReadValue{
+    
+    NSData *newData = [Tool uncompressZippedData:peripheralData.allData];
+    NSString *aString = [[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding];
+    NSDictionary *dataDic = [aString Json];
+     
+    
+    //匹配接口数据
+    switch ([dataDic[@"code"] integerValue]) {
+        case  100://周边用户信息
+        {
+            NSDictionary *postData = dataDic[@"data"];
+            User *newUser = (User *)[CoreData creat_coredata:@"User" withWhere_id:[NSString stringWithFormat:@"userId='%@'",postData[@"userId"]]];
+            [newUser initData_dic:postData];
+            peripheralData.perUser = newUser;
+            
+            
+            //开始进行握手操作--将中心的数据发送给周边用户
+            NSString *string = [[Tool getUser] exchangeJsonstring];
+            NSData *jsonData = [string dataUsingEncoding:NSUTF8StringEncoding];
+            Request *startRequest = [[CenrequestQueue shared] cenInitData:jsonData withCharacteristic:self.characteristic];
+            //启动所有的
+            [[CenrequestQueue shared] startAll_once:peripheralData.peripheral withStart:startRequest];
+            
+        }
+            break;
+        case  101://--其它接口
+        {
+            
+        }
+            break;
+        default:
+            break;
+    }
+    
+    [cdelagete callBackMsg:dataDic[@"msg"]];
+}
 
 
 

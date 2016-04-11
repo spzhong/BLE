@@ -7,18 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Global.h"
-#import "RequestQueue.h"
+#import "PerequestQueue.h"
+
+//#import "CentralData.h"
+
+
+@class CentralData;
+
+ 
 
 
 @protocol PeripheralDelagete <NSObject>
 
 @required
 -(void)sendMsgResult:(BOOL)isok;
--(void)callBackMsg:(NSData *)msg;
+-(void)callBackMsg:(NSString *)msg;
 @optional
 
 @end
@@ -27,7 +34,8 @@
 
 @interface Peripheral : NSObject<CBPeripheralManagerDelegate>
 {
-    NSMutableDictionary *queueArray;
+    NSMutableArray *queueArray;
+    CentralData *centralData;
 }
 
 @property (retain,nonatomic)CBMutableService *CBservice;

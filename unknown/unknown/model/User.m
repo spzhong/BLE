@@ -2,8 +2,8 @@
 //  User.m
 //  unknown
 //
-//  Created by spzhong on 16/4/1.
-//  Copyright © 2016年 spzhong. All rights reserved.
+//  Created by apple on 16/4/6.
+//  Copyright © 2016年 dachen. All rights reserved.
 //
 
 #import "User.h"
@@ -17,7 +17,7 @@
  *
  *  @param dataString
  */
--(void)initData_dic:(NSMutableDictionary *)dic{
+-(void)initData_dic:(NSDictionary *)dic{
     self.userId = dic[@"userId"];
     self.name = dic[@"name"];
     self.sell_kb = dic[@"sell_kb"];
@@ -25,6 +25,7 @@
     self.isallow_xg = dic[@"isallow_xg"];
     self.save_kb = dic[@"save_kb"];
     self.wifi = dic[@"wifi"];
+    self.device = dic[@"device"];
     [CoreData save_coredata];
 }
 
@@ -42,6 +43,7 @@
     self.isallow_xg = dic[@"isallow_xg"];
     self.save_kb = dic[@"save_kb"];
     self.wifi = dic[@"wifi"];
+    self.device = dic[@"device"];
     [CoreData save_coredata];
 }
 
@@ -60,10 +62,17 @@
     [dic setObject:self.isallow_xg  == nil ? @"":self.isallow_xg forKey:@"isallow_xg"];
     [dic setObject:self.save_kb == nil ? @"":self.save_kb forKey:@"save_kb"];
     [dic setObject:self.wifi == nil ? @"":self.wifi forKey:@"wifi"];
-    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:nil];
+    [dic setObject:self.device == nil ? @"":self.device forKey:@"device"];
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setObject:@"100" forKey:@"code"];
+    [postDic setObject:[Tool interface:@"100"] forKey:@"msg"];
+    [postDic setObject:dic forKey:@"data"];
+    
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:postDic options:0 error:nil];
     NSString * myString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
     return myString;
 }
-
 
 @end

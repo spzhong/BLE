@@ -302,7 +302,7 @@
  *
  *  @param msg
  */
--(void)callBackMsg:(NSData *)msg{
+-(void)callBackMsg:(NSString *)msg{
     
     if (msg == nil) {
         return;
@@ -310,61 +310,60 @@
     
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    
-    Byte *headByte = (Byte *)[msg bytes];
-    
-    
-    //NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
-    NSString *aString = [[NSString alloc] initWithData:msg encoding:NSUTF8StringEncoding];
-    [dic setObject:aString forKey:@"data"];
+    //NSString *aString = [[NSString alloc] initWithData:msg encoding:NSUTF8StringEncoding];
+    [dic setObject:msg forKey:@"data"];
     [dic setObject:@"1" forKey:@"type"];
     [dic setObject:@"0" forKey:@"dir"]; //对方
-    
-    return;
-    
-    //文本
-    if (0xe0==headByte[0]) {
-       
-        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
-        NSString *aString = [[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding];
-        [dic setObject:aString forKey:@"data"];
-        [dic setObject:@"1" forKey:@"type"];
-        [dic setObject:@"0" forKey:@"dir"]; //对方
-    }
-    //图片
-    if (0xe1==headByte[0]) {
-        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
-        UIImage *aimage = [UIImage imageWithData: newData];
-        [dic setObject:aimage forKey:@"data"];
-        [dic setObject:@"2" forKey:@"type"];
-    }
-    //声音
-    if (0xe2==headByte[0]) {
-        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
-        //UIImage *aimage = [UIImage imageWithData: newData];
-        //[dic setObject:aimage forKey:@"data"];
-        [dic setObject:@"3" forKey:@"type"];
-    }
-    //视频
-    if (0xe3==headByte[0]) {
-        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
-        //UIImage *aimage = [UIImage imageWithData: newData];
-        //[dic setObject:aimage forKey:@"data"];
-        [dic setObject:@"4" forKey:@"type"];
-    }
-    //文件
-    if (0xe4==headByte[0]) {
-        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
-        //UIImage *aimage = [UIImage imageWithData: newData];
-        //[dic setObject:aimage forKey:@"data"];
-        [dic setObject:@"5" forKey:@"type"];
-    }
-    
-    //添加到数据数组中
     [dataLogArray addObject:dic];
     
     NSIndexPath *index = [NSIndexPath indexPathForRow:dataLogArray.count-1 inSection:0];
-    [self.myTab insertRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationLeft];
+         [self.myTab insertRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationLeft];
+    
+    return;
+    
+//    //文本
+//    if (0xe0==headByte[0]) {
+//       
+//        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
+//        NSString *aString = [[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding];
+//        [dic setObject:aString forKey:@"data"];
+//        [dic setObject:@"1" forKey:@"type"];
+//        [dic setObject:@"0" forKey:@"dir"]; //对方
+//    }
+//    //图片
+//    if (0xe1==headByte[0]) {
+//        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
+//        UIImage *aimage = [UIImage imageWithData: newData];
+//        [dic setObject:aimage forKey:@"data"];
+//        [dic setObject:@"2" forKey:@"type"];
+//    }
+//    //声音
+//    if (0xe2==headByte[0]) {
+//        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
+//        //UIImage *aimage = [UIImage imageWithData: newData];
+//        //[dic setObject:aimage forKey:@"data"];
+//        [dic setObject:@"3" forKey:@"type"];
+//    }
+//    //视频
+//    if (0xe3==headByte[0]) {
+//        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
+//        //UIImage *aimage = [UIImage imageWithData: newData];
+//        //[dic setObject:aimage forKey:@"data"];
+//        [dic setObject:@"4" forKey:@"type"];
+//    }
+//    //文件
+//    if (0xe4==headByte[0]) {
+//        NSData *newData = [msg subdataWithRange:NSMakeRange(1, msg.length-1)];
+//        //UIImage *aimage = [UIImage imageWithData: newData];
+//        //[dic setObject:aimage forKey:@"data"];
+//        [dic setObject:@"5" forKey:@"type"];
+//    }
+//    
+//    //添加到数据数组中
+//    [dataLogArray addObject:dic];
+//    
+//    NSIndexPath *index = [NSIndexPath indexPathForRow:dataLogArray.count-1 inSection:0];
+//    [self.myTab insertRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 

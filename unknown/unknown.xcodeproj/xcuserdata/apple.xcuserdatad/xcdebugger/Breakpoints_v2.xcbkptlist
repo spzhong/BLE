@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "unknown/beacon/Beacon.m"
-            timestampString = "478097443.52016"
+            timestampString = "481538167.650003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149">
+            startingLineNumber = "150"
+            endingLineNumber = "150">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -24,12 +24,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "unknown/beacon/Peripheral.m"
-            timestampString = "481217284.972907"
+            timestampString = "481538274.746315"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "-peripheralManager:central:didSubscribeToCharacteristic:"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "-peripheralEndReadValue:withcharacteristic:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -39,13 +39,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "unknown/beacon/Central.m"
-            timestampString = "481217619.237003"
+            filePath = "unknown/beacon/Peripheral.m"
+            timestampString = "481539346.71768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "-peripheral:didUpdateValueForCharacteristic:error:"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "-peripheralEndReadValue:withcharacteristic:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -55,13 +55,77 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "unknown/controller/CentralViewController.m"
-            timestampString = "481218049.706857"
+            filePath = "unknown/beacon/peripheral/Peripheral.m"
+            timestampString = "481600520.574406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "-callBackMsg:"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "-peripheralEndReadValue:withcharacteristic:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "unknown/beacon/peripheral/Peripheral.m"
+            timestampString = "481600520.574406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "-peripheralEndReadValue:withcharacteristic:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "unknown/beacon/peripheral/Peripheral.m"
+            timestampString = "481600520.574406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "-peripheralEndReadValue:withcharacteristic:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "unknown/beacon/peripheral/Peripheral.m"
+            timestampString = "481600520.574406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "-peripheralEndReadValue:withcharacteristic:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "unknown/beacon/central/Central.m"
+            timestampString = "481901067.576597"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "-sendToSubscribers:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

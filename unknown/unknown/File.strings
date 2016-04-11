@@ -1,0 +1,10 @@
+/* 
+  File.strings
+  unknown
+
+  Created by apple on 16/4/5.
+  Copyright © 2016年 dachen. All rights reserved.
+*/
+
+"BroadcastConnecting" = "正在连接...";
+"BroadcastConnectionError" = "直播连接失败, 请重试";
