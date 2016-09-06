@@ -22,9 +22,43 @@
 
 
 
+
+- (void)proximityChange:(NSNotificationCenter *)notification {
+    if ([UIDevice currentDevice].proximityState == YES) {
+        NSLog(@"某个物体靠近了设备屏幕"); // 屏幕会自动锁住
+    } else {
+        NSLog(@"某个物体远离了设备屏幕"); // 屏幕会自动解锁
+    }
+}
+
+
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-  
+    
+    int a = 0;
+    
+    
+    a++;
+    
+    NSLog(@"%d",a);
+    
+    NSLog(@"%d",a);
+    
+    
+    
+    
+    // 开启距离感应功能
+    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+    // 监听距离感应的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(proximityChange:)
+                                                 name:UIDeviceProximityStateDidChangeNotification
+                                               object:nil];
+    
+    
+    
     //创建定位
     [self initCLLocationManager];
     //判断定位权限
@@ -39,49 +73,49 @@
     //[self scansearchBeaconwithApp:[NSString stringWithFormat:@"FDA50693-A4E2-4FB1-AFCF-C6EB076478%d",25] withIdentifier:[NSString stringWithFormat:@"%d",25]];
     
     
-//    NSString *str=[NSString stringWithFormat:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
-//    NSURL *url = [NSURL URLWithString:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
-//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSString *html = operation.responseString;
-//        NSLog(@"周边返回的数据 %@",html);
-//        
-//        //NSData* postData=[html dataUsingEncoding:NSUTF8StringEncoding];
-//        
-//        NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
-//        [postDic setObject:@"101" forKey:@"code"];
-//        [postDic setObject:[Tool interface:@"101"] forKey:@"msg"];
-//        [postDic setObject:html forKey:@"data"];
-//        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:postDic options:0 error:nil];
-//    
-//        NSData *data =  [Tool compressData:jsonData];
-//        
-//        
-//        
-//        
-//        [[PerequestQueue shared] initData:data withCharacteristic:nil withCentral:nil];
-//         
-//        
-//        [[PerequestQueue shared] next:nil];
-//        
-//        
-//        
-//       NSData *newdata =  [Tool uncompressZippedData:data];
-//        
-//        
-//        NSString *newString = [[NSString alloc] initWithData:newdata encoding:NSUTF8StringEncoding];
-//        
-//        
-//        NSLog(@"%@",newString);
-//     
-//        
-//    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"发生错误！%@",error);
-//    }];
-//    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-//    [queue addOperation:operation];
-//    
+    //    NSString *str=[NSString stringWithFormat:@"https://alpha-api.app.net/stream/0/posts/stream/global"];
+    //    NSURL *url = [NSURL URLWithString:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    //    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    //    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
+    //    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    //        NSString *html = operation.responseString;
+    //        NSLog(@"周边返回的数据 %@",html);
+    //
+    //        //NSData* postData=[html dataUsingEncoding:NSUTF8StringEncoding];
+    //
+    //        NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    //        [postDic setObject:@"101" forKey:@"code"];
+    //        [postDic setObject:[Tool interface:@"101"] forKey:@"msg"];
+    //        [postDic setObject:html forKey:@"data"];
+    //        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:postDic options:0 error:nil];
+    //
+    //        NSData *data =  [Tool compressData:jsonData];
+    //
+    //
+    //
+    //
+    //        [[PerequestQueue shared] initData:data withCharacteristic:nil withCentral:nil];
+    //
+    //
+    //        [[PerequestQueue shared] next:nil];
+    //
+    //
+    //
+    //       NSData *newdata =  [Tool uncompressZippedData:data];
+    //
+    //
+    //        NSString *newString = [[NSString alloc] initWithData:newdata encoding:NSUTF8StringEncoding];
+    //
+    //
+    //        NSLog(@"%@",newString);
+    //
+    //
+    //    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    //        NSLog(@"发生错误！%@",error);
+    //    }];
+    //    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    //    [queue addOperation:operation];
+    //
     
     
     return YES;
@@ -200,7 +234,7 @@
 
 
 -(void)sendMsgResult:(BOOL)isok{
-
+    
 }
 -(void)callBackMsg:(NSData *)msg{
 }

@@ -802,7 +802,6 @@
 				TargetAttributes = {
 					18666EFD1C7EA538004DEAF8 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = WC7LZN7T9K;
 					};
 				};
 			};
@@ -1047,7 +1046,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huang Dengpin (XJ256XL2WW)";
 				ENABLE_BITCODE = YES;
 				GCC_PREFIX_HEADER = unknown/unknown.pch;
 				INFOPLIST_FILE = unknown/Info.plist;
@@ -1064,7 +1063,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huang Dengpin (XJ256XL2WW)";
 				ENABLE_BITCODE = YES;
 				GCC_PREFIX_HEADER = unknown/unknown.pch;
 				INFOPLIST_FILE = unknown/Info.plist;
